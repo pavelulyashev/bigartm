@@ -9,6 +9,10 @@
 #include <memory>
 #include <string>
 
+//#if defined(__linux__)
+//#include <immintrin.h>
+//#endif
+
 #include "boost/exception/diagnostic_information.hpp"
 #include "boost/lexical_cast.hpp"
 #include "boost/uuid/uuid_generators.hpp"
@@ -34,6 +38,12 @@ Processor::Processor(Instance* instance)
     : instance_(instance),
       is_stopping(false),
       thread_() {
+
+//#if defined(__linux__)
+//_MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
+//_mm_setcsr(_mm_getcsr() | (1<<15) | (1<<6));
+//#endif
+
   // Keep this at the last action in constructor.
   // http://stackoverflow.com/questions/15751618/initialize-boost-thread-in-object-constructor
   boost::thread t(&Processor::ThreadFunction, this);
