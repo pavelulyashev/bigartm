@@ -87,7 +87,7 @@ std::vector<float> Helpers::GenerateRandomVector(int size, size_t seed) {
   boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > flag_gen(rng, v);
 
   for (int i = 0; i < size; ++i) {
-    if (flag_gen() > 0.7f) {
+    if (flag_gen() >= 0.0f) {
       retval.push_back(gen());
     } else {
       retval.push_back(0.0f);
