@@ -82,10 +82,16 @@ std::vector<float> Helpers::GenerateRandomVector(int size, size_t seed) {
 
   boost::mt19937 rng(seed);
   boost::uniform_real<float> u(0.0f, 1.0f);
+  boost::uniform_real<float> v(0.0f, 1.0f);
   boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > gen(rng, u);
+  boost::variate_generator<boost::mt19937&, boost::uniform_real<float> > flag_gen(rng, v);
 
   for (int i = 0; i < size; ++i) {
-    retval.push_back(gen());
+    if (flag_gen() > 0.51f) {
+      retval.push_back(gen());
+    } else {
+      retval.push_back(0.0f);
+    }
   }
 
   float sum = 0.0f;

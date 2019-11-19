@@ -12,6 +12,12 @@ std::shared_ptr< ::artm::core::Dictionary> ScoreCalculatorInterface::dictionary(
   return ::artm::core::ThreadSafeDictionaryCollection::singleton().get(dictionary_name);
 }
 
+std::shared_ptr< ::artm::core::Dictionary> ScoreCalculatorInterface::dictionary() {
+  return ::artm::core::ThreadSafeDictionaryCollection::singleton().get(
+          ::artm::core::ThreadSafeDictionaryCollection::singleton().keys()[0]
+          );
+}
+
 std::shared_ptr<const ::artm::core::PhiMatrix> ScoreCalculatorInterface::GetPhiMatrix(const std::string& model_name) {
   return instance_->GetPhiMatrixSafe(model_name);
 }

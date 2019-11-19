@@ -7,6 +7,7 @@
 #include <map>
 #include <algorithm>
 #include <sstream>
+#include <iostream>
 
 #include "artm/core/exceptions.h"
 #include "artm/core/helpers.h"
@@ -40,7 +41,10 @@ void Perplexity::AppendScore(
   // check dictionary existence for replacing zero pwt sums
   std::shared_ptr<core::Dictionary> dictionary_ptr = nullptr;
   if (config_.has_dictionary_name()) {
-    dictionary_ptr = dictionary(config_.dictionary_name());
+    dictionary_ptr = dictionary();
+    std::cout << dictionary_ptr->name() << " <<<\n";
+    LOG(ERROR) << dictionary_ptr->name() << " <<<\n";
+    //dictionary_ptr = dictionary(config_.dictionary_name());
   }
 
   bool use_document_unigram_model = true;
