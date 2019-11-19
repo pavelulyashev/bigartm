@@ -39,9 +39,7 @@ void Perplexity::AppendScore(
 
   // check dictionary existence for replacing zero pwt sums
   std::shared_ptr<core::Dictionary> dictionary_ptr = nullptr;
-  if (config_.has_dictionary_name()) {
-    dictionary_ptr = dictionary(config_.dictionary_name());
-  }
+  dictionary_ptr = dictionary();
 
   bool use_document_unigram_model = true;
   if (config_.has_model_type()) {

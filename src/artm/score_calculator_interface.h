@@ -72,6 +72,8 @@ class ScoreCalculatorInterface {
   std::string score_name() const { return score_config_.name(); }
   void set_instance(::artm::core::Instance* instance) { instance_ = instance; }
 
+  std::shared_ptr< ::artm::core::Dictionary> dictionary();
+
   template<typename ConfigType>
   ConfigType ParseConfig() const;
 
