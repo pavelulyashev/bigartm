@@ -224,6 +224,22 @@ void PackedValues::get(std::vector<float>* buffer) const {
   }
 }
 
+    int PackedValues::size() const {
+      return values_.size();
+    }
+
+    void PackedValues::get_sparse(std::vector<float>* value_buffer, std::vector<int>* index_buffer) const {
+      for (int i = 0; i < values_.size(); ++i) {
+        (*value_buffer)[i] = values_[i];
+      }
+
+      if (is_packed()) {
+        for (int i = 0; i < ptr_.size(); ++i) {
+          (*index_buffer)[i] = ptr_[i];
+        }
+      }
+    }
+
 float* PackedValues::unpack() {
   if (is_packed()) {
     const int full_size = bitmask_.size();
@@ -356,6 +372,15 @@ void DensePhiMatrix::increase(int token_id, const std::vector<float>& increment)
   this->Unlock(token_id);
 }
 
+    int DensePhiMatrix::get_non_zero_topic_size(int token_id) const {
+      return values_[token_id].size();
+    }
+
+    void DensePhiMatrix::get_sparse(int token_id, std::vector<float>* value_buffer,
+                                    std::vector<int>* index_buffer) const {
+      values_[token_id].get_sparse(value_buffer, index_buffer);
+    }
+
 void DensePhiMatrix::Clear() {
   values_.clear();
   PhiMatrixFrame::Clear();
@@ -448,6 +473,11 @@ void AttachedPhiMatrix::Clear() {
   values_.clear();
   PhiMatrixFrame::Clear();
 }
+
+    void AttachedPhiMatrix::get_sparse(int token_id, std::vector<float>* value_buffer,
+                                       std::vector<int>* index_buffer) const {
+      get(token_id, value_buffer);
+    }
 
 int AttachedPhiMatrix::AddToken(const Token& token) {
   BOOST_THROW_EXCEPTION(artm::core::InternalError("Tokens addition is not allowed for attached model."));
