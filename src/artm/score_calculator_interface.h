@@ -68,6 +68,8 @@ class ScoreCalculatorInterface {
   std::shared_ptr< ::artm::core::Dictionary> dictionary(const std::string& dictionary_name);
   std::shared_ptr<const ::artm::core::PhiMatrix> GetPhiMatrix(const std::string& model_name);
 
+  std::shared_ptr< ::artm::core::Dictionary> dictionary();
+
   std::string model_name() const { return score_config_.model_name(); }
   std::string score_name() const { return score_config_.name(); }
   void set_instance(::artm::core::Instance* instance) { instance_ = instance; }

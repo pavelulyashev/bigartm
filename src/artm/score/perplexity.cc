@@ -39,22 +39,9 @@ void Perplexity::AppendScore(
 
   // check dictionary existence for replacing zero pwt sums
   std::shared_ptr<core::Dictionary> dictionary_ptr = nullptr;
-  if (config_.has_dictionary_name()) {
-    dictionary_ptr = dictionary(config_.dictionary_name());
-  }
+  dictionary_ptr = dictionary();
 
-  bool use_document_unigram_model = true;
-  if (config_.has_model_type()) {
-    if (config_.model_type() == PerplexityScoreConfig_Type_UnigramCollectionModel) {
-      if (dictionary_ptr) {
-        use_document_unigram_model = false;
-      } else {
-        LOG_FIRST_N(ERROR, 100) << "Perplexity was configured to use UnigramCollectionModel with dictionary "
-          << config_.dictionary_name() << ". This dictionary can't be found.";
-        return;
-      }
-    }
-  }
+  bool use_document_unigram_model = false;
 
   // fields of proto messages for all classes
   std::unordered_map<::artm::core::TransactionTypeName, float> transaction_weight_map;
