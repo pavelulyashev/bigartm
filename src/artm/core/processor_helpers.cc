@@ -581,6 +581,7 @@ void ProcessorHelpers::InferThetaAndUpdateNwtSparse(const ProcessBatchesArgs& ar
 
     for (float& value : values) {
       value *= batch_weight;
+      value -= 1.2f;
     }
     nwt_writer->Store(token_nwt_id[w], values);
   }
